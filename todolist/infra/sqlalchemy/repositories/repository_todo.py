@@ -7,9 +7,10 @@ class RepositoryTodo:
         todo = Todo(description=description, user_id=user_id)
         db.session.add(todo)
         db.session.commit()
+        return todo
 
-    def read(self, id_user: int):
-        todos: Todo = Todo.query.filter_by(id_user=id_user).all()
+    def read(self, user_id: int):
+        todos: Todo = Todo.query.filter_by(user_id=user_id).all()
         return todos
 
     def update(self, id: int, description: str):

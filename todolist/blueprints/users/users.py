@@ -4,6 +4,7 @@ from flask import Blueprint, render_template, redirect, url_for
 # noinspection PyUnresolvedReferences
 from flask_login import login_user, logout_user
 from todolist.infra.sqlalchemy.repositories.repository_user import RepositoryUser
+from todolist.infra.sqlalchemy.repositories.repository_todo import RepositoryTodo
 from todolist.infra.forms.form_register import FormRegister
 from todolist.infra.forms.form_login import FormLogin
 from todolist.infra.sqlalchemy.verifications.verification_user import verify_password
@@ -37,7 +38,8 @@ def login():
 
         if user and verify_password(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for("todos.todolist"))
+            todos = RepositoryTodo().read(user.id)
+            return redirect(url_for("todos.todolist"), todos=todos)
 
     return render_template("login.html", form=form)
 

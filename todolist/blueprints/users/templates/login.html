@@ -8,6 +8,7 @@
   <p class="p-form">Login</p>
     <hr>
     <form action="/login" method="post">
+        {{ form.csrf_token }}
         <div class="form-group">
             {{ form.email(class="form-control",
             placeholder="Email") }}

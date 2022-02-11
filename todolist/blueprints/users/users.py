@@ -24,7 +24,7 @@ def register():
         RepositoryUser().create(
             name=form.name.data, email=form.email.data, password=form.password.data
         )
-        redirect(url_for("login"))
+        redirect(url_for("users.login"))
     return render_template("register.html", form=form)
 
 
@@ -45,4 +45,4 @@ def login():
 @users_blueprint.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return redirect(url_for("users.index"))

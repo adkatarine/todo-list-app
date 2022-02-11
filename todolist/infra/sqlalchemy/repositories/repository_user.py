@@ -1,10 +1,5 @@
 from todolist.infra.sqlalchemy.models.users import User
-from todolist import db, login_manager
-
-
-@login_manager.user_loader
-def get_user(user_id: int):
-    return User.query.filter_by(id=user_id).first()
+from todolist import db
 
 
 class RepositoryUser:

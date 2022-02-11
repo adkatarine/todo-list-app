@@ -1,8 +1,13 @@
-from todolist import db
+from todolist import db, login_manager
 from werkzeug.security import generate_password_hash
 
 # noinspection PyUnresolvedReferences
 from flask_login import UserMixin
+
+
+@login_manager.user_loader
+def get_user(user_id: int):
+    return User.query.filter_by(id=user_id).first()
 
 
 class User(db.Model, UserMixin):

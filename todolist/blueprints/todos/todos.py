@@ -22,4 +22,20 @@ def create():
         description=request.form["description"], user_id=current_user.id
     )
     todos = RepositoryTodo().read(user_id=current_user.id)
-    return redirect(url_for("todolist.html", todos=todos))
+    return redirect(url_for("todolist", todos=todos))
+
+
+@todos_blueprint.route("/update", methods=["POST"])
+def update():
+    RepositoryTodo().update(
+        id=request.form["id"], description=request.form["description"]
+    )
+    todos = RepositoryTodo().read(user_id=current_user.id)
+    return redirect(url_for("todos.todolist", todos=todos))
+
+
+@todos_blueprint.route("/remove/<int:id>", methods=["GET"])
+def remove(id: int):
+    RepositoryTodo().delete(id=id)
+    todos = RepositoryTodo().read(user_id=current_user.id)
+    return redirect(url_for("todos.todolist", todos=todos))

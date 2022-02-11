@@ -21,7 +21,7 @@
         <div class="mb-3">
             <form action="/create" method="post">
                 <div class="form-group">
-                    <textarea class="form-control" name="description" id="message-text" placeholder="Enter a new task..."></textarea>
+                    <input type="text" class="form-control" id="message-text" name="description" placeholder="Enter a new task...">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -33,6 +33,8 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+
 
 <div class="container mt-5 px-2" style="text-align: center; width: 800px;">
     <div class="table-responsive">
@@ -52,9 +54,36 @@
                         <th scope="row"><input class="form-check-input" type="checkbox"></th>
                         <td>{{ todo.id }}</td>
                         <td>{{ todo.description }}</td>
-                        <td><img src="https://img.icons8.com/dusk/30/000000/edit-property.png"/></td>
-                        <td><img src="https://img.icons8.com/dusk/30/000000/filled-trash.png"/></td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalEdit{{ todo.id }}"><img src="https://img.icons8.com/dusk/30/000000/edit-property.png"/></a></td>
+                        <td><a href="/remove/{{ todo.id }}"><img src="https://img.icons8.com/dusk/30/000000/filled-trash.png"/></a></td>
                     </tr>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEdit{{ todo.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                                <form action="/update" method="post">
+                                    <div class="form-group">
+                                        <input type="hidden"name="id" value="{{ todo.id }}">
+                                        <input type="text" class="form-control" name="description" value="{{ todo.description }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal -->
                 {% endfor %}
             </tbody>
         </table>

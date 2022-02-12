@@ -39,3 +39,10 @@ def remove(id: int):
     RepositoryTodo().delete(id=id)
     todos = RepositoryTodo().read(user_id=current_user.id)
     return redirect(url_for("todos.todolist", todos=todos))
+
+
+@todos_blueprint.route("/update_status/<int:id>", methods=["GET", "POST"])
+def update_status(id: int):
+    RepositoryTodo().update_status(id=id)
+    todos = RepositoryTodo().read(user_id=current_user.id)
+    return redirect(url_for("todos.todolist", todos=todos))

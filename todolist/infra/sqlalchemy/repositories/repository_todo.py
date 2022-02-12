@@ -22,3 +22,8 @@ class RepositoryTodo:
         todo: Todo = Todo.query.filter_by(id=id).first()
         db.session.delete(todo)
         db.session.commit()
+
+    def update_status(self, id: int):
+        todo: Todo = Todo.query.filter_by(id=id).first()
+        todo.status = not todo.status
+        db.session.commit()

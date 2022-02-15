@@ -22,7 +22,7 @@ def create():
         description=request.form["description"], user_id=current_user.id
     )
     todos = RepositoryTodo().read(user_id=current_user.id)
-    return redirect(url_for("todolist", todos=todos))
+    return redirect(url_for("todos.todolist", todos=todos))
 
 
 @todos_blueprint.route("/update", methods=["POST"])

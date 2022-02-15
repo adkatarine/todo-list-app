@@ -9,6 +9,9 @@ from wtforms.validators import DataRequired
 
 
 class FormRegister(FlaskForm):
+    """Classe utilizada para gerenciar de forma mais fácil os dados de cadastro recebidos
+    de um formulário."""
+
     name = StringField("name", validators=[DataRequired()])
     email = StringField("email", validators=[DataRequired()])
     password = PasswordField("password", validators=[DataRequired()])

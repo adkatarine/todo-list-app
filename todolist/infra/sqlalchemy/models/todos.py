@@ -2,6 +2,8 @@ from todolist import db
 
 
 class Todo(db.Model):
+    """Classe utilizada para gerenciar os dados da todolist no database."""
+
     __tablename__ = "todos"
 
     id = db.Column(db.Integer, primary_key=True)

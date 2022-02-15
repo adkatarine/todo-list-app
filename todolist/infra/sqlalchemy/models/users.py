@@ -11,6 +11,8 @@ def get_user(user_id: int):
 
 
 class User(db.Model, UserMixin):
+    """Classe utilizada para gerenciar os dados de usuário no database."""
+
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)

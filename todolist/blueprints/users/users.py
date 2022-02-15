@@ -7,10 +7,16 @@ from todolist.infra.sqlalchemy.repositories.repository_user import RepositoryUse
 from todolist.infra.sqlalchemy.repositories.repository_todo import RepositoryTodo
 from todolist.infra.forms.form_register import FormRegister
 from todolist.infra.forms.form_login import FormLogin
-from todolist.infra.sqlalchemy.verifications.verification_user import verify_password
+from todolist.infra.sqlalchemy.verifications.verification_user import (
+    verify_password,
+    verify_emails_equals,
+    verify_user_exists,
+)
 
 
-users_blueprint = Blueprint("users", __name__, template_folder="templates")
+users_blueprint = Blueprint(
+    "users", __name__, template_folder="templates", static_folder="static"
+)
 
 
 @users_blueprint.route("/")
@@ -22,10 +28,11 @@ def index():
 def register():
     form = FormRegister()
     if form.validate_on_submit():
-        RepositoryUser().create(
-            name=form.name.data, email=form.email.data, password=form.password.data
-        )
-        redirect(url_for("users.login"))
+        if verify_user_exists(RepositoryUser().read(email=form.email.data)):
+            RepositoryUser().create(
+                name=form.name.data, email=form.email.data, password=form.password.data
+            )
+            redirect(url_for("users.login"))
     return render_template("register.html", form=form)
 
 
@@ -34,13 +41,13 @@ def login():
     form = FormLogin()
     if form.validate_on_submit():
         user = RepositoryUser().read(email=form.email.data)
-        print(user.email)
 
-        if user and verify_password(user.password, form.password.data):
+        if verify_emails_equals(form.email, user):
+            return redirect(url_for("users.login", form=form))
+        elif verify_password(user.password, form.password.data):
             login_user(user)
             todos = RepositoryTodo().read(user.id)
-            return redirect(url_for("todos.todolist"), todos=todos)
-
+            return redirect(url_for("todos.todolist", todos=todos))
     return render_template("login.html", form=form)
 
 

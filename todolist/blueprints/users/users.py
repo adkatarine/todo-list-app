@@ -15,7 +15,11 @@ from todolist.infra.sqlalchemy.verifications.verification_user import (
 
 
 users_blueprint = Blueprint(
-    "users", __name__, template_folder="templates", static_folder="static"
+    "users",
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+    static_url_path="/users/static",
 )
 
 
@@ -32,7 +36,7 @@ def register():
             RepositoryUser().create(
                 name=form.name.data, email=form.email.data, password=form.password.data
             )
-            redirect(url_for("users.login"))
+            return redirect(url_for("users.login"))
     return render_template("register.html", form=form)
 
 
